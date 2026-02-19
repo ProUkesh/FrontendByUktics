@@ -1,477 +1,145 @@
-<!-- index.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Uktics • FrontendByUktics</title>
-    <meta name="description" content="Uktics demo frontend: premium UI for AutoFix runs, CI watch, and run history." />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uktics Demo</title>
     <style>
-      :root{
-        --bg0:#070a10;
-        --bg1:#0b1220;
-        --card:rgba(255,255,255,.06);
-        --card2:rgba(255,255,255,.085);
-        --stroke:rgba(255,255,255,.12);
-        --text:#e7eefc;
-        --muted:rgba(231,238,252,.72);
-        --muted2:rgba(231,238,252,.52);
-        --good:#34d399;
-        --warn:#fbbf24;
-        --bad:#fb7185;
-        --shadow: 0 20px 60px rgba(0,0,0,.55);
-        --radius: 18px;
-      }
-      *{ box-sizing:border-box; }
-      html,body{ height:100%; }
-      body{
-        margin:0;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-        color:var(--text);
-        background:
-          radial-gradient(1200px 800px at 20% 10%, rgba(56,189,248,.18), transparent 55%),
-          radial-gradient(900px 650px at 80% 20%, rgba(168,85,247,.16), transparent 55%),
-          radial-gradient(900px 650px at 50% 90%, rgba(34,197,94,.10), transparent 55%),
-          linear-gradient(180deg, var(--bg0), var(--bg1) 40%, #05070d);
-        overflow-x:hidden;
-      }
-      a{ color:inherit; text-decoration:none; }
-      .wrap{ max-width:1180px; margin:0 auto; padding:28px 18px 56px; }
-
-      /* Nav */
-      .nav{
-        display:flex; align-items:center; justify-content:space-between;
-        gap:12px;
-        padding:14px 14px;
-        border:1px solid var(--stroke);
-        background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(14px);
-        position: sticky; top: 12px; z-index: 10;
-      }
-      .brand{
-        display:flex; align-items:center; gap:12px;
-        min-width: 220px;
-      }
-      .logo{
-        width:34px; height:34px; border-radius:12px;
-        background: linear-gradient(135deg, rgba(56,189,248,.95), rgba(168,85,247,.92));
-        box-shadow: 0 14px 40px rgba(56,189,248,.18);
-      }
-      .brand strong{ font-size:15px; letter-spacing:.2px; }
-      .brand small{ display:block; color:var(--muted2); font-size:12px; margin-top:2px; }
-      .links{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
-      .chip{
-        padding:9px 12px;
-        border:1px solid rgba(255,255,255,.10);
-        background: rgba(0,0,0,.18);
-        border-radius: 999px;
-        color: var(--muted);
-        font-size: 13px;
-      }
-      .chip:hover{ background: rgba(255,255,255,.07); color: var(--text); }
-      .actions{ display:flex; gap:10px; align-items:center; justify-content:flex-end; min-width: 220px; }
-      .btn{
-        border:1px solid rgba(255,255,255,.14);
-        background: rgba(255,255,255,.08);
-        color: var(--text);
-        padding:10px 13px;
-        border-radius: 12px;
-        cursor:pointer;
-        font-weight: 600;
-        font-size: 13px;
-      }
-      .btn:hover{ background: rgba(255,255,255,.12); }
-      .btn.primary{
-        border-color: rgba(56,189,248,.35);
-        background: linear-gradient(135deg, rgba(56,189,248,.22), rgba(168,85,247,.18));
-        box-shadow: 0 14px 40px rgba(56,189,248,.12);
-      }
-
-      /* Hero */
-      .hero{
-        margin-top: 24px;
-        display:grid;
-        grid-template-columns: 1.15fr .85fr;
-        gap:16px;
-        align-items: stretch;
-      }
-      .card{
-        border: 1px solid var(--stroke);
-        background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(14px);
-      }
-      .heroMain{ padding: 22px 22px 18px; position:relative; overflow:hidden; }
-      .kicker{
-        display:inline-flex; gap:8px; align-items:center;
-        padding: 6px 10px;
-        border:1px solid rgba(255,255,255,.12);
-        border-radius: 999px;
-        background: rgba(0,0,0,.18);
-        color: var(--muted);
-        font-size: 12px;
-      }
-      .dot{ width:8px; height:8px; border-radius:999px; background: var(--good); box-shadow:0 0 20px rgba(52,211,153,.55); }
-      h1{
-        margin: 14px 0 8px;
-        font-size: clamp(28px, 3.1vw, 44px);
-        line-height: 1.05;
-        letter-spacing: -0.5px;
-      }
-      .sub{
-        color: var(--muted);
-        font-size: 15px;
-        line-height: 1.55;
-        max-width: 56ch;
-      }
-      .ctaRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 16px; }
-      .ctaRow .btn{ padding: 11px 14px; }
-      .heroGlow{
-        position:absolute; inset:-60px -120px auto auto;
-        width: 380px; height: 380px; border-radius: 50%;
-        background: radial-gradient(circle at 30% 30%, rgba(56,189,248,.22), transparent 60%),
-                    radial-gradient(circle at 70% 70%, rgba(168,85,247,.18), transparent 60%);
-        filter: blur(10px);
-        transform: rotate(18deg);
-        pointer-events:none;
-      }
-
-      .heroSide{ padding: 16px; display:flex; flex-direction:column; gap:12px; }
-      .stat{
-        padding: 14px;
-        border-radius: 16px;
-        border:1px solid rgba(255,255,255,.10);
-        background: rgba(0,0,0,.16);
-      }
-      .statTop{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
-      .badge{
-        padding: 4px 8px;
-        border-radius: 999px;
-        font-size: 11px;
-        border:1px solid rgba(255,255,255,.14);
-        color: var(--muted);
-      }
-      .badge.good{ border-color: rgba(52,211,153,.35); color: rgba(52,211,153,.95); }
-      .badge.warn{ border-color: rgba(251,191,36,.35); color: rgba(251,191,36,.95); }
-      .badge.neutral{ border-color: rgba(148,163,184,.25); color: rgba(148,163,184,.95); }
-      .stat strong{ font-size: 14px; letter-spacing:.2px; }
-      .stat p{ margin: 8px 0 0; color: var(--muted2); font-size: 13px; line-height:1.45; }
-      .miniRow{ display:flex; gap:10px; margin-top: 10px; }
-      .pill{
-        flex:1;
-        padding: 10px 10px;
-        border-radius: 14px;
-        border:1px solid rgba(255,255,255,.10);
-        background: rgba(255,255,255,.06);
-        font-size: 12px;
-        color: var(--muted);
-      }
-
-      /* Sections */
-      .section{ margin-top: 18px; padding: 18px; }
-      .section h2{ margin: 0 0 8px; font-size: 18px; letter-spacing: -.2px; }
-      .section .hint{ color: var(--muted2); font-size: 13px; margin:0; }
-
-      .grid3{
-        display:grid;
-        grid-template-columns: repeat(3, minmax(0,1fr));
-        gap: 12px;
-        margin-top: 12px;
-      }
-      .feature{
-        padding: 14px;
-        border-radius: 16px;
-        border:1px solid rgba(255,255,255,.10);
-        background: rgba(0,0,0,.16);
-      }
-      .feature .icon{
-        width: 34px; height: 34px; border-radius: 12px;
-        display:grid; place-items:center;
-        border:1px solid rgba(255,255,255,.12);
-        background: rgba(255,255,255,.06);
-        margin-bottom: 10px;
-      }
-      .feature strong{ display:block; font-size: 14px; }
-      .feature p{ margin: 8px 0 0; color: var(--muted2); font-size: 13px; line-height: 1.45; }
-
-      .steps{
-        margin-top: 12px;
-        display:grid;
-        grid-template-columns: repeat(4, minmax(0,1fr));
-        gap: 12px;
-      }
-      .step{
-        padding: 14px;
-        border-radius: 16px;
-        border:1px solid rgba(255,255,255,.10);
-        background: rgba(0,0,0,.16);
-      }
-      .step .n{
-        display:inline-flex; align-items:center; gap:8px;
-        color: var(--muted);
-        font-size: 12px;
-        margin-bottom: 8px;
-      }
-      .step .n b{
-        width: 22px; height: 22px; border-radius: 999px;
-        display:grid; place-items:center;
-        border: 1px solid rgba(255,255,255,.14);
-        background: rgba(255,255,255,.06);
-      }
-      .step strong{ display:block; font-size: 13px; }
-      .step p{ margin: 6px 0 0; color: var(--muted2); font-size: 12.5px; line-height: 1.45; }
-
-      /* Footer */
-      footer{
-        margin-top: 18px;
-        display:flex;
-        justify-content: space-between;
-        align-items:center;
-        gap:12px;
-        padding: 14px 18px;
-        color: var(--muted2);
-        font-size: 12px;
-      }
-      .sep{ opacity:.5; }
-
-      /* Modal */
-      .backdrop{
-        position: fixed; inset:0; display:none;
-        background: rgba(0,0,0,.55);
-        backdrop-filter: blur(6px);
-        z-index: 50;
-      }
-      .modal{
-        max-width: 520px;
-        margin: 12vh auto 0;
-        padding: 18px;
-        border-radius: 18px;
-        border: 1px solid rgba(255,255,255,.14);
-        background: linear-gradient(180deg, rgba(15,23,42,.95), rgba(2,6,23,.92));
-        box-shadow: 0 30px 90px rgba(0,0,0,.65);
-      }
-      .modal h3{ margin: 0 0 6px; font-size: 16px; }
-      .modal p{ margin: 0 0 12px; color: var(--muted); font-size: 13px; line-height: 1.5; }
-      .modal .row{ display:flex; gap:10px; justify-content:flex-end; }
-      .modal .btn{ background: rgba(255,255,255,.07); }
-
-      /* Responsive */
-      @media (max-width: 980px){
-        .hero{ grid-template-columns: 1fr; }
-        .brand, .actions{ min-width: auto; }
-        .steps{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-        .grid3{ grid-template-columns: 1fr; }
-      }
-      @media (max-width: 520px){
-        .links{ display:none; }
-        .steps{ grid-template-columns: 1fr; }
-        footer{ flex-direction: column; align-items:flex-start; }
-      }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        .panel { border: 1px solid #ccc; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        .hidden { display: none; }
+        .dark { background-color: #333; color: #fff; }
+        .light { background-color: #fff; color: #000; }
+        .button { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: #28a745; color: white; padding: 10px; border-radius: 5px; }
+        .run-history { margin-top: 20px; }
+        .run { padding: 10px; border: 1px solid #ccc; margin: 5px 0; cursor: pointer; }
+        .run.executing { animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { background-color: #f0f0f0; } 50% { background-color: #e0e0e0; } 100% { background-color: #f0f0f0; } }
     </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <div class="nav">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <strong>Uktics</strong>
-            <small>FrontendByUktics • HTML demo</small>
-          </div>
+</head>
+<body>
+    <div class="container">
+        <h1>Uktics Demo</h1>
+        <div class="panel">
+            <h2>Start AutoFix</h2>
+            <form id="autofix-form">
+                <label for="repo">Repo (owner/repo):</label>
+                <input type="text" id="repo" required>
+                <label for="branch">Branch:</label>
+                <input type="text" id="branch" required>
+                <label for="prompt">Prompt:</label>
+                <textarea id="prompt" required></textarea>
+                <label for="merge-method">Merge Method:</label>
+                <select id="merge-method">
+                    <option value="merge">Merge</option>
+                    <option value="squash">Squash</option>
+                </select>
+                <label><input type="checkbox" id="auto-merge"> Auto-merge</label>
+                <label><input type="checkbox" id="delete-branch"> Delete branch</label>
+                <button type="submit" class="button">Submit</button>
+            </form>
+            <div id="toast" class="toast hidden">Demo: Run queued</div>
         </div>
-
-        <div class="links">
-          <a class="chip" href="#home">Home</a>
-          <a class="chip" href="#features">AutoFix</a>
-          <a class="chip" href="#runs">Runs</a>
-          <a class="chip" href="#how">How it works</a>
-        </div>
-
-        <div class="actions">
-          <button class="btn" id="btnGithub">Connect GitHub</button>
-          <a class="btn primary" href="#features">Start AutoFix</a>
-        </div>
-      </div>
-
-      <section id="home" class="hero">
-        <div class="card heroMain">
-          <div class="heroGlow" aria-hidden="true"></div>
-          <div class="kicker"><span class="dot"></span> Live-ready UI demo • no backend required</div>
-          <h1>AI Dev Agent for AutoFix PRs.</h1>
-          <p class="sub">
-            A premium UI for starting AutoFix runs, tracking CI, and reviewing run history.
-            This repo is HTML-only so you can deploy instantly and validate UX in production.
-          </p>
-          <div class="ctaRow">
-            <a class="btn primary" href="#features">Start AutoFix</a>
-            <a class="btn" href="#runs">View Runs</a>
-            <button class="btn" id="btnLearn">How it works</button>
-          </div>
-        </div>
-
-        <aside class="card heroSide">
-          <div class="stat">
-            <div class="statTop">
-              <strong>Status</strong>
-              <span class="badge good">READY</span>
+        <div class="panel run-history">
+            <h2>Run History</h2>
+            <input type="text" id="search-repo" placeholder="Search by repo">
+            <div id="filter-chips">
+                <button class="button" data-filter="all">All</button>
+                <button class="button" data-filter="success">Success</button>
+                <button class="button" data-filter="failed">Failed</button>
+                <button class="button" data-filter="running">Running</button>
             </div>
-            <p>Static HTML build. Perfect for fast live testing on GitHub Pages.</p>
-            <div class="miniRow">
-              <div class="pill">⚡ Fast load</div>
-              <div class="pill">🧩 Clean UI</div>
-            </div>
-          </div>
-
-          <div class="stat">
-            <div class="statTop">
-              <strong>AutoFix Mode</strong>
-              <span class="badge warn">DEMO</span>
-            </div>
-            <p>Buttons + modals only. Next step: wire to Cloud Run /api endpoints.</p>
-          </div>
-
-          <div class="stat">
-            <div class="statTop">
-              <strong>Deploy target</strong>
-              <span class="badge neutral">GitHub Pages</span>
-            </div>
-            <p>URL will be: <span style="color:rgba(231,238,252,.88)">proukesh.github.io/FrontendByUktics</span></p>
-          </div>
-        </aside>
-      </section>
-
-      <section id="features" class="card section">
-        <h2>What you can test here</h2>
-        <p class="hint">Premium look & feel, responsive layout, modal UX, section navigation.</p>
-
-        <div class="grid3">
-          <div class="feature">
-            <div class="icon">🧠</div>
-            <strong>Plan → Code → Review</strong>
-            <p>Start a run with strict constraints and clear acceptance criteria.</p>
-          </div>
-          <div class="feature">
-            <div class="icon">✅</div>
-            <strong>CI Watch + Auto-merge</strong>
-            <p>Track pipeline progress and optionally merge when checks pass.</p>
-          </div>
-          <div class="feature">
-            <div class="icon">🗂️</div>
-            <strong>Run History + Patches</strong>
-            <p>Keep runs searchable with timestamps, statuses, and patch previews.</p>
-          </div>
+            <div id="runs"></div>
         </div>
-      </section>
-
-      <section id="runs" class="card section">
-        <h2>Runs</h2>
-        <p class="hint">Demo cards (static). Later we’ll load these from /api/runs.</p>
-
-        <div class="grid3">
-          <div class="feature">
-            <div class="icon">🟢</div>
-            <strong>Run #128 — PR_OPENED</strong>
-            <p>Repo: ProUkesh/FrontendByUktics • Method: squash • Updated: just now</p>
-          </div>
-          <div class="feature">
-            <div class="icon">🟡</div>
-            <strong>Run #127 — EXECUTING</strong>
-            <p>CI running… • PatchSet generated • Waiting for checks</p>
-          </div>
-          <div class="feature">
-            <div class="icon">🔴</div>
-            <strong>Run #126 — FAILED</strong>
-            <p>Lint error in frontend • AutoFix suggested changes • Retry ready</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="how" class="card section">
-        <h2>How it works</h2>
-        <p class="hint">This is the exact flow we’ll wire to your Uktics backend next.</p>
-
-        <div class="steps">
-          <div class="step">
-            <div class="n"><b>1</b> ✍️ Prompt</div>
-            <strong>Write a strict instruction</strong>
-            <p>Define allowed files, acceptance criteria, and test commands.</p>
-          </div>
-          <div class="step">
-            <div class="n"><b>2</b> 🧩 Plan</div>
-            <strong>Planner builds PatchSet</strong>
-            <p>Agent proposes changes and risk-checks before coding.</p>
-          </div>
-          <div class="step">
-            <div class="n"><b>3</b> 🔧 Code</div>
-            <strong>Coder implements changes</strong>
-            <p>Commits changes on a branch and opens a PR automatically.</p>
-          </div>
-          <div class="step">
-            <div class="n"><b>4</b> ✅ Review</div>
-            <strong>CI + merge rules</strong>
-            <p>Watch CI, auto-merge on green, and store run history.</p>
-          </div>
-        </div>
-      </section>
-
-      <footer class="card">
-        <div>© <span id="year"></span> Uktics • Demo UI for <span class="sep">ProUkesh/FrontendByUktics</span></div>
-        <div class="sep">Static HTML • No external assets • Ready for GitHub Pages</div>
-      </footer>
     </div>
-
-    <div class="backdrop" id="backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-      <div class="modal">
-        <h3 id="modalTitle">Connect GitHub</h3>
-        <p id="modalBody">
-          This is a UI-only demo. Next step: wire OAuth and tokens via the Uktics backend.
-        </p>
-        <div class="row">
-          <button class="btn" id="btnClose">Close</button>
-          <button class="btn primary" id="btnOk">Got it</button>
-        </div>
-      </div>
-    </div>
-
     <script>
-      const $ = (id) => document.getElementById(id);
-      const backdrop = $("backdrop");
-      const openModal = (title, body) => {
-        $("modalTitle").textContent = title;
-        $("modalBody").textContent = body;
-        backdrop.style.display = "block";
-        backdrop.setAttribute("aria-hidden", "false");
-      };
-      const closeModal = () => {
-        backdrop.style.display = "none";
-        backdrop.setAttribute("aria-hidden", "true");
-      };
+        const form = document.getElementById('autofix-form');
+        const toast = document.getElementById('toast');
+        const runsDiv = document.getElementById('runs');
+        const searchRepo = document.getElementById('search-repo');
+        const filterButtons = document.querySelectorAll('#filter-chips .button');
+        let runs = [
+            { id: 1, repo: 'owner/repo1', status: 'PR_OPENED' },
+            { id: 2, repo: 'owner/repo2', status: 'EXECUTING' },
+            { id: 3, repo: 'owner/repo3', status: 'FAILED' },
+            { id: 4, repo: 'owner/repo4', status: 'MERGED' },
+            { id: 5, repo: 'owner/repo5', status: 'EXECUTING' },
+            { id: 6, repo: 'owner/repo6', status: 'PR_OPENED' },
+            { id: 7, repo: 'owner/repo7', status: 'FAILED' },
+            { id: 8, repo: 'owner/repo8', status: 'MERGED' }
+        ];
+        let currentFilter = 'all';
 
-      $("year").textContent = new Date().getFullYear();
+        function renderRuns() {
+            runsDiv.innerHTML = '';
+            const filteredRuns = runs.filter(run => {
+                if (currentFilter === 'all') return true;
+                return run.status.toLowerCase() === currentFilter;
+            });
+            filteredRuns.forEach(run => {
+                const runDiv = document.createElement('div');
+                runDiv.className = 'run ' + (run.status === 'EXECUTING' ? 'executing' : '');
+                runDiv.innerText = `${run.repo} - ${run.status}`;
+                runDiv.onclick = () => openModal(run);
+                runsDiv.appendChild(runDiv);
+            });
+        }
 
-      $("btnGithub").addEventListener("click", () => {
-        openModal(
-          "Connect GitHub",
-          "UI-only demo. When we wire this up, it will open GitHub OAuth and store a session token safely on the backend."
-        );
-      });
-      $("btnLearn").addEventListener("click", () => {
-        document.querySelector("#how").scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+        function openModal(run) {
+            alert(`Run Details: ${JSON.stringify(run)}`);
+        }
 
-      $("btnClose").addEventListener("click", closeModal);
-      $("btnOk").addEventListener("click", closeModal);
+        form.onsubmit = function(event) {
+            event.preventDefault();
+            const repo = document.getElementById('repo').value;
+            const branch = document.getElementById('branch').value;
+            const prompt = document.getElementById('prompt').value;
+            if (!/^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$/.test(repo)) {
+                alert('Invalid repo format.');
+                return;
+            }
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+            runs.push({ id: runs.length + 1, repo: repo, status: 'EXECUTING' });
+            renderRuns();
+        };
 
-      backdrop.addEventListener("click", (e) => {
-        if (e.target === backdrop) closeModal();
-      });
+        searchRepo.oninput = function() {
+            const searchTerm = searchRepo.value.toLowerCase();
+            runsDiv.innerHTML = '';
+            runs.filter(run => run.repo.toLowerCase().includes(searchTerm)).forEach(run => {
+                const runDiv = document.createElement('div');
+                runDiv.className = 'run ' + (run.status === 'EXECUTING' ? 'executing' : '');
+                runDiv.innerText = `${run.repo} - ${run.status}`;
+                runDiv.onclick = () => openModal(run);
+                runsDiv.appendChild(runDiv);
+            });
+        };
 
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
-      });
+        filterButtons.forEach(button => {
+            button.onclick = function() {
+                currentFilter = this.getAttribute('data-filter');
+                renderRuns();
+            };
+        });
+
+        function setTheme(theme) {
+            document.body.className = theme;
+            localStorage.setItem('theme', theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            setTheme(savedTheme);
+        });
     </script>
-  </body>
+</body>
 </html>

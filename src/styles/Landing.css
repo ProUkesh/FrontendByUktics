@@ -1,0 +1,60 @@
+body {
+  background: linear-gradient(135deg, #1e1e1e, #2e2e2e);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.nav-links a, .nav-links button {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.hero {
+  text-align: center;
+  padding: 2rem;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  width: 30%;
+  text-align: center;
+}
+
+.how-it-works {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  width: 100%;
+}

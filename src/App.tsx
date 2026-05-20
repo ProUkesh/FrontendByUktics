@@ -12,6 +12,7 @@ const App = () => {
         <Route path='/autofix' component={AutoFix} />
         <Route path='/runs' component={Runs} />
       </Switch>
+      <h1>Uktics React Apply Test</h1>
     </Router>
   );
 };

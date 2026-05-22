@@ -1,4 +1,3 @@
-# Frontend Multi Repo PR Smoke Test
+# Frontend CI No Checks Smoke Test
 
-## UI Test
 Frontend is connected to localhost API.

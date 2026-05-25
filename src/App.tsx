@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Landing from './pages/Landing';
 import AutoFix from './pages/AutoFix';
 import Runs from './pages/Runs';
+import Login from './pages/Login';
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         <Route path='/' exact component={Landing} />
         <Route path='/autofix' component={AutoFix} />
         <Route path='/runs' component={Runs} />
+        <Route path='/login' component={Login} />
       </Switch>
       <h1>Uktics React Apply Test</h1>
     </Router>
